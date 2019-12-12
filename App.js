@@ -27,10 +27,18 @@ export default function App() {
     });
   };
 
+  const toggleAddMode = mode => {
+    setIsAddMode(mode);
+  };
+
   return (
     <View style={styles.screen}>
-      <Button title="add New Name" onPress={() => setIsAddMode(true)} />
-      <NameInput visible={isAddMode} onAddName={addNameHandler} />
+      <Button title="Add new name" onPress={() => setIsAddMode(true)} />
+      <NameInput
+        visible={isAddMode}
+        onAddName={addNameHandler}
+        toggleAddMode={toggleAddMode}
+      />
       <FlatList
         keyExtractor={(item, index) => item.key}
         data={listOfNames}

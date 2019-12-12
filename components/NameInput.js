@@ -7,6 +7,11 @@ const NameInput = props => {
   const nameInputHandler = enteredText => {
     setEnteredName(enteredText);
   };
+
+  const addNameHandler = () => {
+    props.onAddName(enteredName);
+    setEnteredName("");
+  };
   return (
     <Modal visible={props.visible} animationType="slide">
       <View style={styles.inputContainer}>
@@ -16,10 +21,16 @@ const NameInput = props => {
           onChangeText={nameInputHandler}
           value={enteredName}
         />
-        <Button
-          title="Add"
-          onPress={() => props.onAddName(enteredName)}
-        ></Button>
+        <View style={styles.buttonContainer}>
+          <Button title="Add" onPress={addNameHandler}></Button>
+          <Button
+            title="Cancel"
+            color="red"
+            onPress={() => {
+              props.toggleAddMode(false);
+            }}
+          ></Button>
+        </View>
       </View>
     </Modal>
   );
@@ -40,6 +51,12 @@ const styles = StyleSheet.create({
     padding: 10,
     width: "80%",
     marginBottom: 10
+  },
+  //Buttons
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "30%"
   }
 });
 export default NameInput;

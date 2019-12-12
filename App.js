@@ -1,33 +1,23 @@
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  TextInput,
-  Button,
-  ScrollView,
-  FlatList
-} from "react-native";
+import { StyleSheet, View, Button, FlatList } from "react-native";
 import NameItem from "./components/NameItem";
 import NameInput from "./components/NameInput";
 
 export default function App() {
   const [listOfNames, setListNames] = useState([]);
+  const [isAddMode, setIsAddMode] = useState(false);
 
   const addNameHandler = enteredName => {
     setListNames(currentNames => [
       ...currentNames,
       { key: Math.random().toString(), value: enteredName }
     ]);
+    setIsAddMode(false);
   };
 
   const removeNameHandler = nameId => {
-    console.log("list of names ", listOfNames);
     setListNames(listOfNames => {
       return listOfNames.filter(name => {
-        console.log("Filtering this name: ", name);
-        console.log("current id: ", name.key);
-        console.log("remove this: ", nameId);
         if (name.key !== nameId) {
           return true;
         } else {
@@ -39,7 +29,8 @@ export default function App() {
 
   return (
     <View style={styles.screen}>
-      <NameInput onAddName={addNameHandler} />
+      <Button title="add New Name" onPress={() => setIsAddMode(true)} />
+      <NameInput visible={isAddMode} onAddName={addNameHandler} />
       <FlatList
         keyExtractor={(item, index) => item.key}
         data={listOfNames}
